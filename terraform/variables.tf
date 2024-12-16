@@ -7,6 +7,10 @@ variable "environment" {
   description = "The environment to deploy to"
   default = "dev"
 }
+variable "region" {
+    type = string
+    description = "The region to deploy to"
+}
 variable "do_spaces_access_id" {
   type = string
   description = "DigitalOcean Spaces access ID"
@@ -22,4 +26,14 @@ variable "ssh_pub_key" {
 variable "project" {
   type = string
   description = "The project name"
+}
+
+# Kubernetes Cluster
+variable "k8s_cluster_name" {
+  type = string
+  description = "The name of the Kubernetes cluster"
+}
+variable "k8s_version" {
+  type = string
+  description = "The version of Kubernetes to deploy"
 }
