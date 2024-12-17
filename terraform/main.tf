@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "GriotCoorporation"
+    organization = "Akuna"
     hostname     = "app.terraform.io"
     workspaces {
       tags = ["workspaces"]

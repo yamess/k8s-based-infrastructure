@@ -9,6 +9,7 @@ variable "environment" {
 }
 variable "region" {
     type = string
+    default = "tor1"
     description = "The region to deploy to"
 }
 variable "do_spaces_access_id" {
@@ -32,14 +33,4 @@ variable "project" {
 variable "subnet" {
   type = string
   description = "The subnet to deploy to"
-}
-
-# Kubernetes Cluster
-variable "k8s_cluster_name" {
-  type = string
-  description = "The name of the Kubernetes cluster"
-}
-variable "k8s_version" {
-  type = string
-  description = "The version of Kubernetes to deploy"
 }

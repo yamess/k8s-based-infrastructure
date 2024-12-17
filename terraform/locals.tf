@@ -7,4 +7,8 @@ locals {
   project = var.project
   region = var.region
   subnet = var.subnet
+
+  prefix = "${local.project}-${local.region}-${local.environment}"
+
+  k8s_version = "1.31.1-do.5"
 }

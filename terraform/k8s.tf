@@ -1,16 +1,7 @@
-terraform {
-  required_providers {
-    digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "~> 2.0"
-    }
-  }
-}
-
 resource "digitalocean_kubernetes_cluster" "this" {
-  name    = var.k8s_cluster_name
-  region  = var.region
-  version = var.k8s_version
+  name    = "${local.prefix}-k8s-cluster"
+  region  = local.region
+  version = local.k8s_version
   auto_upgrade = true
 
   vpc_uuid = digitalocean_vpc.this.id
@@ -34,4 +25,8 @@ resource "digitalocean_kubernetes_cluster" "this" {
     }
   }
 
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy = false
+  }
 }
