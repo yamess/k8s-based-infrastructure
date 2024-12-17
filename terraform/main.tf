@@ -35,6 +35,7 @@ provider "digitalocean" {
   spaces_access_id  = local.do_spaces_access_id
   spaces_secret_key = local.do_spaces_secret_key
 }
+
 resource "digitalocean_ssh_key" "terraform_ssh_key" {
   name       = "Terraform-managed SSH key for ${local.project}-${local.environment}"
   public_key = local.ssh_pub_key

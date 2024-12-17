@@ -28,6 +28,12 @@ variable "project" {
   description = "The project name"
 }
 
+# VPC
+variable "subnet" {
+  type = string
+  description = "The subnet to deploy to"
+}
+
 # Kubernetes Cluster
 variable "k8s_cluster_name" {
   type = string

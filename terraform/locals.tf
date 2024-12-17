@@ -5,4 +5,6 @@ locals {
   do_spaces_secret_key = var.do_spaces_secret_key
   ssh_pub_key = var.ssh_pub_key
   project = var.project
+  region = var.region
+  subnet = var.subnet
 }
