@@ -11,4 +11,6 @@ locals {
   prefix = "${local.project}-${local.region}-${local.environment}"
 
   k8s_version = "1.31.1-do.5"
+
+  domain = "wouritech.com"
 }

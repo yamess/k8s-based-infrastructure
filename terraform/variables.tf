@@ -34,3 +34,24 @@ variable "subnet" {
   type = string
   description = "The subnet to deploy to"
 }
+
+# Kubernetes
+variable "node_pools" {
+  type = map(object({
+    name     = string
+    size     = string
+    node_count    = number
+    auto_scale    = bool
+    min_nodes = number
+    max_nodes = number
+    tags     = list(string)
+    service = string
+    priority = string
+    taint = object({
+      key    = string
+      value  = string
+      effect = string
+    })
+  }))
+  description = "The node pools to create"
+}
