@@ -20,10 +20,9 @@ variable "do_spaces_secret_key" {
   type = string
   description = "Digital Ocean Spaces secret key"
 }
-variable "public_key" {
-  type = string
-  description = "The public key to use for SSH access"
-}
+variable "public_key" {}
+variable "private_key" {}
+
 variable "project" {
   type = string
   description = "The project name"
@@ -55,3 +54,6 @@ variable "node_pools" {
   }))
   description = "The node pools to create"
 }
+
+variable "txt_verification_value" {}
+variable "mx_value" {}

@@ -1,50 +1,9 @@
 ## nginx configuration
 ## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md
 ##
-
-global:
-  image:
-    # -- Registry host to pull images from.
-    registry: registry.k8s.io
-## Overrides for generated resource names
-# See templates/_helpers.tpl
-# nameOverride:
-# fullnameOverride:
-
-# -- Override the deployment namespace; defaults to .Release.Namespace
-namespaceOverride: ""
-## Labels to apply to all resources
-##
-commonLabels: {}
-# scmhash: abc123
-# myLabel: aakkmd
-
 controller:
   name: controller
   enableAnnotationValidations: true
-  image:
-    ## Keep false as default for now!
-    chroot: false
-    # registry: registry.k8s.io
-    image: ingress-nginx/controller
-    ## for backwards compatibility consider setting the full image url via the repository value below
-    ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
-    ## repository:
-    tag: "v1.12.0-beta.0"
-    digest: sha256:9724476b928967173d501040631b23ba07f47073999e80e34b120e8db5f234d5
-    digestChroot: sha256:6e2f8f52e1f2571ff65bc4fc4826d5282d5def5835ec4ab433dcb8e659b2fbac
-    pullPolicy: IfNotPresent
-    runAsNonRoot: true
-    # -- This value must not be changed using the official image.
-    # uid=101(www-data) gid=82(www-data) groups=82(www-data)
-    runAsUser: 101
-    # -- This value must not be changed using the official image.
-    # uid=101(www-data) gid=82(www-data) groups=82(www-data)
-    runAsGroup: 82
-    allowPrivilegeEscalation: false
-    seccompProfile:
-      type: RuntimeDefault
-    readOnlyRootFilesystem: false
   # -- Configures the controller container name
   containerName: controller
   # -- Configures the ports that the nginx-controller listens on
@@ -488,7 +447,12 @@ controller:
       enabled: true
     # -- Annotations to be added to the external controller service. See `controller.service.internal.annotations` for annotations to be added to the internal controller service.
     annotations:
-
+      service.beta.kubernetes.io/do-loadbalancer-name: "nginx-load-balancer"
+#      service.beta.kubernetes.io/do-loadbalancer-network: "INTERNAL"
+#      service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+#      service.beta.kubernetes.io/do-loadbalancer-http-port: "80"
+#      service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+#      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
     # -- Labels to be added to both controller services.
     labels: {}
     # -- Type of the external controller service.
