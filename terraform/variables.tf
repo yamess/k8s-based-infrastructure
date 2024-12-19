@@ -20,7 +20,7 @@ variable "do_spaces_secret_key" {
   type = string
   description = "Digital Ocean Spaces secret key"
 }
-variable "ssh_pub_key" {
+variable "public_key" {
   type = string
   description = "The public key to use for SSH access"
 }
