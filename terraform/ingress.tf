@@ -75,7 +75,7 @@ resource "helm_release" "ingress-controller" {
   values = [file("${local.tools_path}/ingress-nginx/values.yaml")]
 
   depends_on = [
-    null_resource.install_kubectl
+    null_resource.create_namespaces
   ]
   wait = true
 }
