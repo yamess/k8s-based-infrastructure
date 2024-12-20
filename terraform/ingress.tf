@@ -46,12 +46,30 @@ resource "null_resource" "install_kubectl" {
   ]
 }
 
+resource "null_resource" "create_namespaces" {
+  for_each = local.namespaces
+  triggers = {
+    always_run = timestamp()
+  }
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl get ns ${each.value} || kubectl create namespace ${each.value}
+    EOT
+    interpreter = ["bash", "-c"]
+    environment = {
+      "KUBECONFIG" = local_sensitive_file.kubeconfig.filename
+    }
+  }
+  depends_on = [null_resource.install_kubectl]
+}
+
+
 resource "helm_release" "ingress-controller" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart = "ingress-nginx"
   name  = "ingress-nginx"
-  namespace = "ingress-nginx"
-  create_namespace = true
+  namespace = "nginx"
+  create_namespace = false
   version = "4.11.3"
 
   values = [file("${local.tools_path}/ingress-nginx/values.yaml")]
@@ -67,7 +85,7 @@ resource "helm_release" "certificates" {
   chart = "cert-manager"
   name  = "cert-manager"
   namespace = "cert-manager"
-  create_namespace = true
+  create_namespace = false
 
   set {
     name  = "installCRDs"

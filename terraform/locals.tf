@@ -12,6 +12,13 @@ locals {
 
   prefix = "${local.project}-${local.region}-${local.environment}"
 
+  ingress_controller_namespace = "nginx"
+  certificate_manager_namespace = "cert-manager"
+  namespaces = toset([
+    local.ingress_controller_namespace,
+    local.certificate_manager_namespace
+  ])
+
   k8s_version = "1.31.1-do.5"
   loadbalancer_name = "nginx-load-balancer"
 
