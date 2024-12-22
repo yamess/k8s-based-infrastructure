@@ -115,13 +115,30 @@ resource "null_resource" "cert-issuer" {
     null_resource.create_namespaces
   ]
 }
+
+# resource "helm_release" "prometheus" {
+#     repository = "https://prometheus-community.github.io/helm-charts"
+#     chart = "kube-prometheus-stack"
+#     name  = "prometheus"
+#     namespace = local.monitoring_namespace
+#     create_namespace = false
+#
+#     values = [file("${local.tools_path}/monitoring/prometheus.yaml")]
+#
+#     depends_on = [
+#         null_resource.create_namespaces
+#     ]
+# }
+
 resource "null_resource" "ingress" {
     triggers = {
         always_run = timestamp()
     }
     provisioner "local-exec" {
         command = <<-EOT
-          kubectl apply -f ${local.tools_path}/ingress-nginx/ingress.yaml
+          kubectl apply -f ${local.tools_path}/ingress-nginx/frontend-ingress.yaml
+          kubectl apply -f ${local.tools_path}/ingress-nginx/backend-ingress.yaml -n ${local.app_namespace}
+          kubectl apply -f ${local.tools_path}/ingress-nginx/private-ingress.yaml -n ${local.monitoring_namespace}
         EOT
         interpreter = ["bash", "-c"]
         environment = {

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: backend
+  labels:
+    run: internal-app
+  name: internal-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: internal-app
+  template:
+    metadata:
+      labels:
+        run: internal-app
+    spec:
+      containers:
+        - name: internal-app
+          image: jmalloc/echo-server
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: backend
+  name: internal-app-svc
+spec:
+  selector:
+    run: internal-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080

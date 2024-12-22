@@ -1,0 +1,57 @@
+grafana:
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: true
+#  additionalDataSources:
+#    - name: loki
+#      type: loki
+#      url: http://loki-loki-distributed-gateway.monitoring:80
+#      access: proxy
+#      isDefault: false
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: do-block-storage
+    name: grafana-storage
+    size: 10Gi
+    accessModes:
+      - ReadWriteMany
+    finalizers:
+      - kubernetes.io/pvc-protection
+
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          name: prometheus-storage
+          storageClassName: "do-block-storage"
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: "10Gi"
+
+nodeExporter:
+  enable: true
+  operatingSystems:
+    linux:
+      enabled: true
+    aix:
+      enabled: false
+    darwin:
+      enabled: false
+    windows:
+      enabled: false
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "do-block-storage"
+          accessModes: ["ReadWriteOnce"]
+          name: alertmanager-storage
+          resources:
+            requests:
+              storage: "10Gi"
