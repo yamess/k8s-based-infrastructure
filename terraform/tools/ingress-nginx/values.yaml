@@ -14,6 +14,7 @@ controller:
   # Ref.: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
   config:
     use-proxy-protocol: "true"
+    use-http2: "true"
   # -- Annotations to be added to the controller config configuration configmap.
   configAnnotations: {}
   # -- Will add custom headers before sending traffic to backends according to https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/custom-headers
@@ -456,8 +457,7 @@ controller:
 #      service.beta.kubernetes.io/do-loadbalancer-network: "INTERNAL"
 #      service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
 #      service.beta.kubernetes.io/do-loadbalancer-http-port: "80"
-#      service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-#      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+      service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
     # -- Labels to be added to both controller services.
     labels: {}
     # -- Type of the external controller service.

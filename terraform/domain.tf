@@ -43,6 +43,16 @@ resource "digitalocean_record" "api" {
   depends_on = [digitalocean_record.main]
 }
 
+resource "digitalocean_record" "internal" {
+  domain = local.domain
+  name   = "internnal"
+  type   = "A"
+  value  = data.digitalocean_loadbalancer.loadbalancer.ip
+  ttl = local.ttl
+
+  depends_on = [digitalocean_record.main]
+}
+
 ### Email Configuration
 resource "digitalocean_record" "txt_spf" {
   domain = local.domain

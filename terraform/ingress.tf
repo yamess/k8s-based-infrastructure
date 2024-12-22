@@ -68,7 +68,7 @@ resource "helm_release" "ingress-controller" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart = "ingress-nginx"
   name  = "ingress-nginx"
-  namespace = "nginx"
+  namespace = local.ingress_controller_namespace
   create_namespace = false
   version = "4.11.3"
 
@@ -84,7 +84,7 @@ resource "helm_release" "certificates" {
   repository = "https://charts.jetstack.io"
   chart = "cert-manager"
   name  = "cert-manager"
-  namespace = "cert-manager"
+  namespace = local.certificate_manager_namespace
   create_namespace = false
 
   set {
@@ -109,7 +109,11 @@ resource "null_resource" "cert-issuer" {
     }
   }
 
-  depends_on = [helm_release.certificates]
+  depends_on = [
+    helm_release.certificates,
+    null_resource.install_kubectl,
+    null_resource.create_namespaces
+  ]
 }
 resource "null_resource" "ingress" {
     triggers = {
@@ -126,7 +130,9 @@ resource "null_resource" "ingress" {
     }
 
     depends_on = [
-        null_resource.cert-issuer
+        null_resource.cert-issuer,
+        null_resource.install_kubectl,
+        null_resource.create_namespaces
     ]
 }
 

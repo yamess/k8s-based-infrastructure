@@ -6,6 +6,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - wouritech.com
@@ -28,4 +29,3 @@ spec:
                 name: default-backend-svc
                 port:
                   number: 80
-  ingressClassName: nginx
