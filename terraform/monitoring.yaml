@@ -1,0 +1,9 @@
+resource "helm_release" "prometheus" {
+  repository: 
+  chart: 
+  name: 
+  version: 
+
+
+  depends_on: 
+}

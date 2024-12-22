@@ -5,6 +5,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -12,6 +13,7 @@ spec:
         - wouritech.com
         - api.wouritech.com
         - www.wouritech.com
+        - internal.wouritech.com
       secretName: tls-secret
   defaultBackend:
     service:
