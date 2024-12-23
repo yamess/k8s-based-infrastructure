@@ -12,10 +12,10 @@ controller:
     https: 443
   # -- Global configuration passed to the ConfigMap consumed by the controller. Values may contain Helm templates.
   # Ref.: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
-  config:
-    use-proxy-protocol: "true"
-    use-http2: "true"
-    ssl-redirect: "true"
+  config: {}
+  #  use-proxy-protocol: "true"
+  #  use-http2: "true"
+  #  ssl-redirect: "true"
   # -- Annotations to be added to the controller config configuration configmap.
   configAnnotations: {}
   # -- Will add custom headers before sending traffic to backends according to https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/custom-headers
@@ -376,15 +376,15 @@ controller:
       enabled: true
     # -- Annotations to be added to the external controller service. See `controller.service.internal.annotations` for annotations to be added to the internal controller service.
     annotations:
-      service.beta.kubernetes.io/do-loadbalancer-name: "nginx-load-balancer"
-      service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
-      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+      service.beta.kubernetes.io/do-loadbalancer-name: "nginx-loadbalancer"
+#      service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+#      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
       service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
-      service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+#      service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
 #      service.beta.kubernetes.io/do-loadbalancer-network: "INTERNAL"
 #      service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
 #      service.beta.kubernetes.io/do-loadbalancer-http-port: "80"
-      service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+#      service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
     # -- Labels to be added to both controller services.
     labels: {}
     # -- Type of the external controller service.

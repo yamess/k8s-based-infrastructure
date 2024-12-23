@@ -4,10 +4,14 @@ metadata:
   name: backend-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+#    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - api.wouritech.com
+      secretName: backend-tls-secret
   rules:
     - host: api.wouritech.com
       http:

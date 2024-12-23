@@ -45,7 +45,7 @@ resource "digitalocean_record" "api" {
 
 resource "digitalocean_record" "internal" {
   domain = local.domain
-  name   = "internnal"
+  name   = "internal"
   type   = "A"
   value  = data.digitalocean_loadbalancer.loadbalancer.ip
   ttl = local.ttl

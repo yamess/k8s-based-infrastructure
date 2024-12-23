@@ -25,7 +25,7 @@ locals {
 	])
 
 	k8s_version = "1.31.1-do.5"
-	loadbalancer_name = "nginx-load-balancer"
+	loadbalancer_name = "nginx-loadbalancer"
 
 	ttl = 1800
 	txt_verification_value = var.txt_verification_value
