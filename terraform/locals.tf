@@ -9,18 +9,19 @@ locals {
 	region = var.region
 	subnet = var.subnet
 	tools_path = abspath("tools")
-
 	prefix = "${local.project}-${local.region}-${local.environment}"
 
 	ingress_controller_namespace = "nginx"
 	certificate_manager_namespace = "cert-manager"
-	app_namespace = "backend"
+	frontend_namespace = "frontend"
+	backend_namespace = "backend"
 	monitoring_namespace = "monitoring"
 
 	namespaces = toset([
 		local.ingress_controller_namespace,
 		local.certificate_manager_namespace,
-		local.app_namespace,
+		local.frontend_namespace,
+		local.backend_namespace,
 		local.monitoring_namespace
 	])
 

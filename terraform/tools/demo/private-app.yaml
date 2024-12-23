@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: backend
   labels:
     run: internal-app
   name: internal-app
@@ -31,8 +30,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: backend
-  name: internal-app-svc
+  name: internal-svc
 spec:
   selector:
     run: internal-app

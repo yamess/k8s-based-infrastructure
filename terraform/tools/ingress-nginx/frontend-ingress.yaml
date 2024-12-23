@@ -4,8 +4,7 @@ metadata:
   name: frontend-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-#    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -21,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend-app-svc
+                name: frontend-svc
                 port:
                   number: 80

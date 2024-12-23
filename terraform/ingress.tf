@@ -130,14 +130,36 @@ resource "null_resource" "cert-issuer" {
 #     ]
 # }
 
+resource "null_resource" "demo_apps" {
+  triggers = {
+    always_run = timestamp()
+  }
+    provisioner "local-exec" {
+        command = <<-EOT
+        kubectl apply -f ${local.tools_path}/demo/frontend-app.yaml -n ${local.frontend_namespace}
+        kubectl apply -f ${local.tools_path}/demo/backend-app.yaml -n ${local.backend_namespace}
+        kubectl apply -f ${local.tools_path}/demo/private-app.yaml -n ${local.monitoring_namespace}
+        EOT
+        interpreter = ["bash", "-c"]
+        environment = {
+          KUBECONFIG = local_sensitive_file.kubeconfig.filename
+        }
+    }
+
+    depends_on = [
+        null_resource.install_kubectl,
+        null_resource.create_namespaces
+    ]
+}
+
 resource "null_resource" "ingress" {
     triggers = {
         always_run = timestamp()
     }
     provisioner "local-exec" {
         command = <<-EOT
-          kubectl apply -f ${local.tools_path}/ingress-nginx/frontend-ingress.yaml
-          kubectl apply -f ${local.tools_path}/ingress-nginx/backend-ingress.yaml -n ${local.app_namespace}
+          kubectl apply -f ${local.tools_path}/ingress-nginx/frontend-ingress.yaml -n ${local.frontend_namespace}
+          kubectl apply -f ${local.tools_path}/ingress-nginx/backend-ingress.yaml -n ${local.backend_namespace}
           kubectl apply -f ${local.tools_path}/ingress-nginx/private-ingress.yaml -n ${local.monitoring_namespace}
         EOT
         interpreter = ["bash", "-c"]
@@ -149,7 +171,7 @@ resource "null_resource" "ingress" {
     depends_on = [
         null_resource.cert-issuer,
         null_resource.install_kubectl,
-        null_resource.create_namespaces
+        null_resource.create_namespaces,
     ]
 }
 
