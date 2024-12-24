@@ -79,10 +79,7 @@ resource "helm_release" "ingress-controller" {
   ]
   wait = true
 
-  lifecycle {
-    create_before_destroy = true
-    prevent_destroy = true
-  }
+
 }
 
 resource "helm_release" "certificates" {

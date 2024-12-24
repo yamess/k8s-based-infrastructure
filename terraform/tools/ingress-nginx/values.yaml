@@ -13,9 +13,9 @@ controller:
     https: 443
 
   config:
-    use-proxy-protocol: "true"
-    use-http2: "true"
-    ssl-redirect: "true"
+    use-proxy-protocol: "true"  # Enable PROXY protocol support only when ssl is already issued
+    use-http2: "true" # Enable HTTP/2 support only when ssl is already issued
+    ssl-redirect: "true" # Enable ssl redirect only when ssl is already issued
     allow-snippet-annotations: "true"
     enable-modsecurity: "true"
     log-format-escape-json: "true"
