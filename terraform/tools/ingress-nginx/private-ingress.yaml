@@ -4,6 +4,7 @@ metadata:
   name: private-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: "174.95.227.234"
 spec:
   ingressClassName: nginx
   tls:

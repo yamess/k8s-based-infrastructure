@@ -78,6 +78,11 @@ resource "helm_release" "ingress-controller" {
     null_resource.create_namespaces
   ]
   wait = true
+
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy = true
+  }
 }
 
 resource "helm_release" "certificates" {
@@ -116,19 +121,20 @@ resource "null_resource" "cert-issuer" {
   ]
 }
 
-# resource "helm_release" "prometheus" {
-#     repository = "https://prometheus-community.github.io/helm-charts"
-#     chart = "kube-prometheus-stack"
-#     name  = "prometheus"
-#     namespace = local.monitoring_namespace
-#     create_namespace = false
-#
-#     values = [file("${local.tools_path}/monitoring/prometheus.yaml")]
-#
-#     depends_on = [
-#         null_resource.create_namespaces
-#     ]
-# }
+resource "helm_release" "prometheus" {
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart = "kube-prometheus-stack"
+  name  = "prometheus"
+  namespace = local.monitoring_namespace
+  create_namespace = false
+
+  values = [file("${local.tools_path}/monitoring/prometheus.yaml")]
+
+  depends_on = [
+    null_resource.install_kubectl,
+    null_resource.create_namespaces
+  ]
+}
 
 resource "null_resource" "demo_apps" {
   triggers = {
