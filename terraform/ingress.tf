@@ -133,6 +133,38 @@ resource "helm_release" "prometheus" {
   ]
 }
 
+resource "helm_release" "loki" {
+  repository = "https://grafana.github.io/helm-charts"
+  chart = "loki-distributed"
+  name = "loki"
+  namespace = local.monitoring_namespace
+  create_namespace = false
+
+  values = [file("${local.tools_path}/monitoring/loki.yaml")]
+
+  depends_on = [
+      null_resource.install_kubectl,
+      null_resource.create_namespaces
+  ]
+}
+
+resource "helm_release" "promtail" {
+  repository = "https://grafana.github.io/helm-charts"
+  chart = "promtail"
+  name = "promtail"
+  namespace = local.monitoring_namespace
+  create_namespace = false
+  version = "6.16.6"
+
+  values = [file("${local.tools_path}/monitoring/promtail.yaml")]
+
+  depends_on = [
+      null_resource.install_kubectl,
+      null_resource.create_namespaces,
+      helm_release.loki
+  ]
+}
+
 resource "null_resource" "demo_apps" {
   triggers = {
     always_run = timestamp()

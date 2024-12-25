@@ -17,12 +17,12 @@ grafana:
         hosts:
          - grafana.wouritech.com
 
-#  additionalDataSources:
-#    - name: loki
-#      type: loki
-#      url: http://loki-loki-distributed-gateway.monitoring:80
-#      access: proxy
-#      isDefault: false
+  additionalDataSources:
+    - name: loki
+      type: loki
+      url: http://loki-loki-distributed-gateway.monitoring:80
+      access: proxy
+      isDefault: false
 #  persistence:
 #    enabled: true
 #    type: pvc

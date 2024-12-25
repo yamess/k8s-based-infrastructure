@@ -24,3 +24,6 @@ destroy:
 
 ssh:
 	ssh-keygen -t ed25519 -C "$(email)" -f ~/.ssh/rsa
+
+export-values:
+	helm show values $(CHART) > $(FILENAME)
