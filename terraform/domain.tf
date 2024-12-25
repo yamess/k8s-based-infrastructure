@@ -53,6 +53,16 @@ resource "digitalocean_record" "internal" {
   depends_on = [digitalocean_record.main]
 }
 
+resource "digitalocean_record" "grafana" {
+  domain = local.domain
+  name   = "grafana"
+  type   = "A"
+  value  = data.digitalocean_loadbalancer.loadbalancer.ip
+  ttl = local.ttl
+
+  depends_on = [digitalocean_record.main]
+}
+
 ### Email Configuration
 resource "digitalocean_record" "txt_spf" {
   domain = local.domain
