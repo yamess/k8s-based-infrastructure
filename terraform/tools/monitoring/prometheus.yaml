@@ -41,8 +41,6 @@ prometheus:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     labels: { }
-    ## Redirect ingress to an additional defined port on the service
-    # servicePort: 8081
     hosts:
       - prometheus.wouritech.com
     paths:
