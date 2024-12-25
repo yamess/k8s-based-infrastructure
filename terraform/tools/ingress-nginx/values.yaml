@@ -54,19 +54,12 @@ controller:
       http: http
       https: https
 
-#  podAnnotations:
-#    prometheus.io/scrape: "true"
-#    prometheus.io/port: "10254"
-
   metrics:
     port: 10254
     portName: metrics
     enabled: true
-    service:
-      enabled: true
-      servicePort: 10254
-      type: ClusterIP
     serviceMonitor:
       enabled: true
-      additionalLabels: {}
+      additionalLabels:
+        release: "prometheus"
       annotations: {}
