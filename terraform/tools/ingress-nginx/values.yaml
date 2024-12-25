@@ -456,14 +456,14 @@ controller:
         #   name: "issuer"
         #   kind: "ClusterIssuer"
   metrics:
-    port: 10254
+    port: "10254"
     portName: metrics
-    enabled: true
+    enabled: "true"
     service:
-      enabled: true
-      annotations: {}
-      prometheus.io/scrape: "true"
-      prometheus.io/port: "10254"
+      enabled: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
       # -- Labels to be added to the metrics service resource
       labels: {}
       # clusterIP: ""
