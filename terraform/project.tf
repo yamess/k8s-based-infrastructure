@@ -4,5 +4,6 @@ resource "digitalocean_project" "this" {
   resources = [
     digitalocean_kubernetes_cluster.this.urn,
     digitalocean_domain.this.urn,
+    digitalocean_spaces_bucket.this.urn,
   ]
 }
