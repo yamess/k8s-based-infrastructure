@@ -33,4 +33,6 @@ locals {
 	mx_value = var.mx_value
 
 	domain = "wouritech.com"
+
+	do_space_endpoint = "${local.region}.digitaloceanspaces.com"
 }

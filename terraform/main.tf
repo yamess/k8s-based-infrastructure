@@ -49,6 +49,12 @@ provider "helm" {
     }
 }
 
+provider "kubernetes" {
+    host = digitalocean_kubernetes_cluster.this.endpoint
+    token = digitalocean_kubernetes_cluster.this.kube_config[0].token
+    cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
+}
+
 resource "digitalocean_ssh_key" "terraform_ssh_key" {
   name       = "Terraform-managed SSH key for ${local.project}-${local.environment}"
   public_key = local.public_key
