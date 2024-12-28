@@ -28,10 +28,9 @@ grafana:
     type: pvc
     storageClassName: do-block-storage
     name: grafana-storage
-    size: 10Gi
-      - ReadWriteMany
-    finalizers:
-      - kubernetes.io/pvc-protection
+    size: 5Gi
+    accessModes:
+      - ReadWriteOnce
 
 prometheus:
   ingress:
@@ -49,16 +48,17 @@ prometheus:
         hosts:
          - prometheus.wouritech.com
 
-#  prometheusSpec:
-#    storageSpec:
-#      volumeClaimTemplate:
-#        spec:
-#          name: prometheus-storage
-#          storageClassName: "do-block-storage"
-#          accessModes: ["ReadWriteMany"]
-#          resources:
-#            requests:
-#              storage: "10Gi"
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        metadata:
+          name: prometheus-storage
+        spec:
+          storageClassName: "do-block-storage"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: "10Gi"
 
 nodeExporter:
   enable: true

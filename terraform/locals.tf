@@ -34,5 +34,5 @@ locals {
 
 	domain = "wouritech.com"
 
-	do_space_endpoint = "${local.region}.digitaloceanspaces.com"
+	do_spaces_endpoint = "${local.region}.digitaloceanspaces.com"
 }
