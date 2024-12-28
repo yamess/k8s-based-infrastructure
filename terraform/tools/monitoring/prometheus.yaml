@@ -26,10 +26,9 @@ grafana:
   persistence:
     enabled: true
     type: pvc
-    storageClassName: csi-s3
+    storageClassName: do-block-storage
     name: grafana-storage
     size: 10Gi
-    accessModes:
       - ReadWriteMany
     finalizers:
       - kubernetes.io/pvc-protection
