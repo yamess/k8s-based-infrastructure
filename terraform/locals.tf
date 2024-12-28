@@ -36,4 +36,3 @@ locals {
 
 	do_space_endpoint = "${local.region}.digitaloceanspaces.com"
 }
-Æ
