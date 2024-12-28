@@ -20,7 +20,23 @@ resource "helm_release" "loki" {
   namespace = local.monitoring_namespace
   create_namespace = false
 
-  values = [file("${local.tools_path}/monitoring/loki.yaml")]
+  values = [
+    file("${local.tools_path}/monitoring/loki.yaml"),
+    yamlencode({
+      "loki" = {
+        "storageConfig" = {
+          "aws" = {
+            "bucketnames" = digitalocean_spaces_bucket.this.name
+            "region" = local.region
+            "endpoint" = digitalocean_spaces_bucket.this.endpoint
+            "access_key_id" = local.do_spaces_access_id
+            "secret_access_key" = local.do_spaces_secret_key
+            "s3forcepathstyle" = false
+          }
+        }
+      }
+    })
+  ]
 
   depends_on = [
     null_resource.install_kubectl,
