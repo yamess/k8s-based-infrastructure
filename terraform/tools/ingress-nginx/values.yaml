@@ -4,9 +4,8 @@
 controller:
   name: controller
   config:
-    use-proxy-protocol: "true"  # Enable PROXY protocol support only when ssl is already issued
-    use-http2: "true" # Enable HTTP/2 support only when ssl is already issued
-    ssl-redirect: "true" # Enable ssl redirect only when ssl is already issued
+    use-proxy-protocol: "true"
+    use-http2: "true"
     allow-snippet-annotations: "true"
     enable-modsecurity: "true"
     log-format-escape-json: "true"
@@ -42,6 +41,7 @@ controller:
       service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
       service.beta.kubernetes.io/do-loadbalancer-http-port: "80"
       service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+      service.beta.kubernetes.io/do-loadbalancer-hostname: "wouritech.com"
     type: LoadBalancer
     ports:
       http: 80

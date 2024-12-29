@@ -55,15 +55,6 @@ provider "kubernetes" {
     cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
 }
 
-resource "digitalocean_ssh_key" "terraform_ssh_key" {
-  name       = "Terraform-managed SSH key for ${local.project}-${local.environment}"
-  public_key = local.public_key
-
-  lifecycle {
-    prevent_destroy = false
-  }
-}
-
 resource "local_sensitive_file" "kubeconfig" {
   content = digitalocean_kubernetes_cluster.this.kube_config[0].raw_config
   filename = "/tmp/kubeconfig"

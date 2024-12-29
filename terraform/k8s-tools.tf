@@ -1,3 +1,25 @@
+resource "helm_release" "csi-s3" {
+    repository = "https://yandex-cloud.github.io/k8s-csi-s3/charts"
+    chart = "csi-s3"
+    name = "csi-s3"
+    namespace = "csi-s3"
+    create_namespace = true
+
+    values = [yamlencode({
+      "secret" = {
+        "create" = true
+        "name" = "csi-s3-secret"
+        "accessKey" = local.do_spaces_access_id
+        "secretKey" = local.do_spaces_secret_key
+        "endpoint" = "https://${local.region}.digitaloceanspaces.com"
+        "region" = local.region
+      }
+    })]
+    depends_on = [
+        digitalocean_kubernetes_node_pool.node_pools,
+    ]
+}
+
 resource "helm_release" "prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart = "kube-prometheus-stack"
@@ -10,6 +32,7 @@ resource "helm_release" "prometheus" {
   depends_on = [
     null_resource.install_kubectl,
     null_resource.create_namespaces,
+    helm_release.csi-s3
   ]
 }
 
@@ -81,4 +104,29 @@ resource "null_resource" "demo_apps" {
     null_resource.install_kubectl,
     null_resource.create_namespaces
   ]
+}
+
+resource "null_resource" "docker-secret" {
+    triggers = {
+        always_run = timestamp()
+    }
+    provisioner "local-exec" {
+        command = <<-EOT
+            kubectl get secret regcred || \
+            kubectl create secret docker-registry regcred \
+                --docker-server=${var.docker_registry_server} \
+                --docker-username=${var.docker_username} \
+                --docker-password=${var.docker_password} \
+                --docker-email=${var.docker_registry_email}
+            EOT
+        interpreter = ["bash", "-c"]
+        environment = {
+          KUBECONFIG = local_sensitive_file.kubeconfig.filename
+        }
+    }
+
+    depends_on = [
+        digitalocean_kubernetes_node_pool.node_pools,
+        null_resource.install_kubectl,
+    ]
 }

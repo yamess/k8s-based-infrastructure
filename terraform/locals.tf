@@ -34,5 +34,13 @@ locals {
 
 	domain = "wouritech.com"
 
-	do_spaces_endpoint = "${local.region}.digitaloceanspaces.com"
+	redis_node_count = 1
+	redis_size = "db-s-2vcpu-4gb"
+	redis_version = "7"
+
+	postgres_version = "16"
+	postgres_node_count = 1
+  	postgres_size = "db-s-1vcpu-1gb"
+  	postgres_storage_size = 10240
+  	postgres_pool_size = 20
 }

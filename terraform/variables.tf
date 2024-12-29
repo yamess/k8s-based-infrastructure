@@ -57,3 +57,7 @@ variable "node_pools" {
 
 variable "txt_verification_value" {}
 variable "mx_value" {}
+variable "docker_username" {}
+variable "docker_password" {}
+variable "docker_registry_server" {}
+variable "docker_registry_email" {}
