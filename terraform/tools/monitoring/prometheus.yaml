@@ -23,14 +23,13 @@ grafana:
       url: http://loki-loki-distributed-gateway.monitoring:80
       access: proxy
       isDefault: false
-#  persistence:
-#    enabled: true
-#    type: pvc
-#    storageClassName: csi-s3
-#    name: grafana-storage
-#    size: 5Gi
-#    accessModes:
-#      - ReadWriteMany
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: do-block-storage
+    size: 5Gi
+    accessModes:
+      - ReadWriteOnce
 
 prometheus:
   ingress:
